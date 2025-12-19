@@ -10,20 +10,20 @@ const registerSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
-type FormState = {
-  error?: string;
-  success?: boolean;
-  details?: {
+type FormState = { //sunucunun cliente verecegi durum raporu
+  error?: string; //genel hatalar 
+  success?: boolean; 
+  details?: { //alan bazli detaylar
     email?: string[];
     username?: string[];
     password?: string[];
   };
-} | null;
+} | null; //null: formun initial durumu
 
 export async function registerAction(
-  prevState: FormState,
-  formData: FormData
-): Promise<FormState> {
+  prevState: FormState, //onceki state
+  formData: FormData //form verileri name uzerinden getler
+): Promise<FormState> { //return tipi
   const rawData = {
     //formData.get() string dönmez
     //tipi: FormDataEntryValue | null
@@ -38,7 +38,6 @@ export async function registerAction(
   const parsed = registerSchema.safeParse(rawData);
 
   if (!parsed.success) {
-    // Return specific validation errors
     console.error("Validation errors:", parsed.error.flatten());
     return {
       error: "Invalid form data",
@@ -47,6 +46,8 @@ export async function registerAction(
   }
 
   const { email, username, password } = parsed.data;
+  //neden direkt rawData icindeki veriler degil?
+  //parsed.data zod'tan basariyla gectigi icin tip guvenirligi var 
 
   try {
     const exists = await prisma.user.findFirst({
@@ -70,11 +71,10 @@ export async function registerAction(
     await signIn("credentials", {
       email,
       password,
-      redirect: false,
+      redirect: false, // redirect:false cunku redirect'i server degil client yonetecek
     });
-    // Return success instead of redirecting here
+    
     return { success: true };
-    // redirect("/dashboard"); //Next.js redirecti değil, Auth.js / NextAuth redirect’i
   } catch (error) {
     console.error("Registration error:", error);
     return { error: "Something went wrong during registration" };

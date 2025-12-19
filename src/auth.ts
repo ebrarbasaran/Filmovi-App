@@ -1,11 +1,9 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  // Remove PrismaAdapter when using credentials
   session: { strategy: "jwt" }, 
   secret: process.env.AUTH_SECRET,
   providers: [
@@ -54,12 +52,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      // Add user ID to session from token
       if (token && session.user) {
-        session.user.id = token.id as string;
+        session.user.id = token.id as string; //tokendaki id'yi sessiona aktardik
         session.user.email = token.email as string;
       }
-      return session;
+      return session; //session objesini burada donuyoruz ve useSession() ya da auth() deyince objeyi kullanabiliriz
     },
   },
   pages: {
