@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 function SubmitButton() {
@@ -21,13 +21,16 @@ function SubmitButton() {
 export default function LoginPage() {
     const [state, formAction] = useActionState(loginAction, null);
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get("callbackUrl");
 
     // redirect kontrolu
     useEffect(() => {
         if (state?.success) {
+            const callbackUrl = state?.callbackUrl || "/dashboard";
             router.push("/dashboard");
         }
-    }, [state?.success, router]);
+    }, [state?.success, state?.callbackUrl, router]);
 
     return (
         <div className="max-w-sm mx-auto mt-20">

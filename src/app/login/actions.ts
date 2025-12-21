@@ -12,6 +12,7 @@ const loginSchema = z.object({
 type FormState = {
   error?: string;
   success?: boolean;
+  callbackUrl?: string;
   details?: {
     email?: string[];
     password?: string[];
@@ -25,6 +26,7 @@ export async function loginAction(
   const rawData = {
     email: String(formData.get("email") || ""),
     password: String(formData.get("password") || ""),
+    callbackUrl: String(formData.get("callbackUrl") || "/dashboard"),
   };
 
   console.log("Login attempt:", rawData.email);
@@ -48,7 +50,7 @@ export async function loginAction(
       redirect: false,
     });
 
-    return { success: true };
+    return { success: true, callbackUrl: rawData.callbackUrl };
   } catch (error) {
     console.error("Login error:", error);
 
