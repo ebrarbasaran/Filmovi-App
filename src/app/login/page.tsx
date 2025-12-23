@@ -36,7 +36,7 @@ export default function LoginPage() {
         <div className="max-w-sm mx-auto mt-20">
             <form action={formAction} className="space-y-4">
                 <h1 className="text-2xl font-bold">Sign in</h1>
-//serverdan gelen state gore ui
+{/* serverdan gelen state gore ui */}
                 {state?.error && (
                     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                         <p className="font-bold">{state.error}</p>
