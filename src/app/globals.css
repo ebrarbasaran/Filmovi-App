@@ -4,6 +4,15 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* --- CUSTOM RENKLERİ TAILWIND'E TANITIYORUZ --- */
+  --color-primary-violet: var(--primary-violet);
+  --color-primary-purple: var(--primary-purple);
+  --color-primary-orange: var(--primary-orange);
+  
+  /* Gradiyentleri Tailwind içinde 'bg-gradient-primary' olarak kullanabilmek için */
+  --background-image-gradient-primary: var(--gradient-primary);
+  --background-image-gradient-primary-horizontal: var(--gradient-primary-horizontal);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -47,6 +56,16 @@
 }
 
 :root {
+   --primary-violet: #8b5cf6;
+  --primary-purple: #9938ca;
+  --primary-orange: #e0724a;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-900: #111827;
+
+  --gradient-primary: linear-gradient(135deg, #8b5cf6, #9938ca, #e0724a);
+  --gradient-primary-horizontal: linear-gradient(to right, #8b5cf6, #9938ca, #e0724a);
+  
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -121,5 +140,27 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+body {
+  /* Öncelik Poppins'te, yüklenemezse sistemin sans-serif fontu */
+  font-family: var(--font-poppins), sans-serif;
+}
+
+.logo {
+  font-family: var(--font-roboto-mono), monospace;
+  font-weight: 300;
+  font-size: 30px;
+}
+
+@keyframes circleAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

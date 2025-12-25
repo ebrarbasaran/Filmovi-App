@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins, Roboto_Mono } from 'next/font/google';
 import "./globals.css";
+import Header from "@/components/common/Header";
+import Providers from "./providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const poppins = Poppins({
+  subsets: ['latin', 'latin-ext'], // Latin ve Latin extended karakterler
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-poppins', // CSS variable olarak kullanmak için
+  display: 'swap', // Font yüklenene kadar sistem fontu göster
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+// Logo için Roboto Mono 300 (Light) ayarı
+const robotoMono = Roboto_Mono({
+  subsets: ['latin'],
+  weight: ['300'], // Sadece 300 (Light) ağırlığını alıyoruz
+  variable: '--font-roboto-mono',
 });
 
 export const metadata: Metadata = {
@@ -25,9 +31,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${poppins.variable} ${robotoMono.variable} antialiased`}
       >
-        {children}
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );
